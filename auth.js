@@ -93,21 +93,24 @@ if (reset) {
 
     const email = document.getElementById("email").value;
 
-    if (!email) {
-      alert("Enter your email");
-      return;
-    }
+    console.log("Sending email:", email);
 
     try {
-      const res = await fetch(`${BASE_URL}/reset-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+      const res = await fetch(
+        "https://simple-crud-backend-6o49.onrender.com/reset-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      console.log("Response status:", res.status);
 
       const data = await res.json();
+      console.log("Response data:", data);
 
       if (res.ok) {
         document.getElementById("msg").innerText =
@@ -116,7 +119,9 @@ if (reset) {
         alert(data.message || "Reset failed");
       }
     } catch (err) {
-      alert("Server error");
+      console.error("ERROR:", err);
+      alert("Server error, check console");
     }
   });
 }
+
