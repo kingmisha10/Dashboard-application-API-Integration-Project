@@ -1,67 +1,122 @@
+const BASE_URL = "https://simple-crud-backend-6o49.onrender.com";
+
+/* ================= LOGIN ================= */
 const login = document.getElementById("loginForm");
 
-if(login){
-login.addEventListener("submit",(e)=>{
-e.preventDefault()
+if (login) {
+  login.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-localStorage.setItem("user","student")
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-window.location.href="dashboard.html"
-})
+    try {
+      const res = await fetch(`${BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Save token/user
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
+
+        window.location.href = "dashboard.html";
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (err) {
+      alert("Server error, try again");
+    }
+  });
 }
 
+/* ================= SIGNUP ================= */
 const signup = document.getElementById("signupForm");
 
-if(signup){
-signup.addEventListener("submit",(e)=>{
-e.preventDefault()
+if (signup) {
+  signup.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-alert("Account created successfully")
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword =
+      document.getElementById("confirmPassword").value;
 
-window.location.href="login.html"
-})
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${BASE_URL}/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Account created successfully");
+        window.location.href = "login.html";
+      } else {
+        alert(data.message || "Signup failed");
+      }
+    } catch (err) {
+      alert("Server error, try again");
+    }
+  });
 }
 
+/* ================= RESET PASSWORD ================= */
 const reset = document.getElementById("resetForm");
 
-if(reset){
-reset.addEventListener("submit", async (e)=>{
-e.preventDefault();
+if (reset) {
+  reset.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-const email = document.getElementById("email").value
+    const email = document.getElementById("email").value;
 
-try{
+    if (!email) {
+      alert("Enter your email");
+      return;
+    }
 
-const res = await fetch(
-"https://simple-crud-backend-6o49.onrender.com/reset-password",
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-email:email
-})
-})
+    try {
+      const res = await fetch(`${BASE_URL}/reset-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
-const data = await res.json()
+      const data = await res.json();
 
-if(res.ok){
-
-document.getElementById("msg").innerText =
-"Password reset link sent!"
-
-}else{
-
-alert(data.message || "Reset failed")
-
-}
-
-}catch(err){
-
-alert("Server error")
-
-}
-
-})
+      if (res.ok) {
+        document.getElementById("msg").innerText =
+          "Password reset link sent!";
+      } else {
+        alert(data.message || "Reset failed");
+      }
+    } catch (err) {
+      alert("Server error");
+    }
+  });
 }
