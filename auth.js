@@ -1,4 +1,3 @@
-const BASE_URL = "https://simple-crud-backend-6o49.onrender.com";
 
 /* ================= LOGIN ================= */
 const login = document.getElementById("loginForm");
