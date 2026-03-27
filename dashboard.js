@@ -1,13 +1,9 @@
-const token = localStorage.getItem("token");
+const user = localStorage.getItem("user");
 
-if (!token) {
+console.log("User in storage:", user); // DEBUG
+
+if (!user) {
   window.location.href = "login.html";
-}
-
-if(!user){
-
-window.location.href = "login.html"
-
 }
 
 const container = document.getElementById("products")
