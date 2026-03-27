@@ -5,7 +5,18 @@ if (login) {
   login.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    localStorage.setItem("user", "student");
+    const email = document.getElementById("email").value;
+
+    if (!email) {
+      alert("Enter email");
+      return;
+    }
+
+    // SAVE USER
+    localStorage.setItem("user", email);
+    
+    console.log("Saved user:", localStorage.getItem("user"));
+
     window.location.href = "dashboard.html";
   });
 }
