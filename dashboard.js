@@ -1,4 +1,8 @@
-const user = localStorage.getItem("user")
+const token = localStorage.getItem("token");
+
+if (!token) {
+  window.location.href = "login.html";
+}
 
 if(!user){
 
@@ -92,10 +96,8 @@ displayProducts(filtered)
 
 /* logout */
 
-logoutBtn.onclick = ()=>{
-
-localStorage.removeItem("user")
-
-window.location.href="login.html"
-
-}
+logoutBtn.onclick = () => {
+  localStorage.removeItem("user");
+  localStorage.removeItem("token");
+  window.location.href = "login.html";
+};
