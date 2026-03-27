@@ -1,100 +1,24 @@
 const login = document.getElementById("loginForm");
 
 if(login){
-login.addEventListener("submit", async (e)=>{
-e.preventDefault();
+login.addEventListener("submit",(e)=>{
+e.preventDefault()
 
-const email = document.getElementById("email").value
-const password = document.getElementById("password").value
+localStorage.setItem("user","student")
 
-try{
-
-const res = await fetch(
-"https://simple-crud-backend-6o49.onrender.com/login",
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-email:email,
-password:password
-})
-})
-
-const data = await res.json()
-
-if(res.ok){
-
-localStorage.setItem("user", JSON.stringify(data))
 window.location.href="dashboard.html"
-
-}else{
-
-alert(data.message || "Login failed")
-
-}
-
-}catch(err){
-
-alert("Server error")
-
-}
-
 })
 }
 
 const signup = document.getElementById("signupForm");
 
 if(signup){
-signup.addEventListener("submit", async (e)=>{
-e.preventDefault();
-
-const name = document.getElementById("name").value
-const email = document.getElementById("email").value
-const password = document.getElementById("password").value
-const confirmPassword = document.getElementById("confirmPassword").value
-
-if(password !== confirmPassword){
-alert("Passwords do not match")
-return
-}
-
-try{
-
-const res = await fetch(
-"https://simple-crud-backend-6o49.onrender.com/signup",
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-name:name,
-email:email,
-password:password
-})
-})
-
-const data = await res.json()
-
-if(res.ok){
+signup.addEventListener("submit",(e)=>{
+e.preventDefault()
 
 alert("Account created successfully")
+
 window.location.href="login.html"
-
-}else{
-
-alert(data.message || "Signup failed")
-
-}
-
-}catch(err){
-
-alert("Server error")
-
-}
-
 })
 }
 
