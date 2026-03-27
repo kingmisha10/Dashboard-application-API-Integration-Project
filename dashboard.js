@@ -1,3 +1,11 @@
+const user = localStorage.getItem("user")
+
+if(!user){
+
+window.location.href = "login.html"
+
+}
+
 const container = document.getElementById("products")
 const searchInput = document.getElementById("searchInput")
 const logoutBtn = document.getElementById("logoutBtn")
@@ -86,10 +94,8 @@ displayProducts(filtered)
 
 logoutBtn.onclick = ()=>{
 
-if(confirm("Logout?")){
+localStorage.removeItem("user")
 
 window.location.href="login.html"
-
-}
 
 }
