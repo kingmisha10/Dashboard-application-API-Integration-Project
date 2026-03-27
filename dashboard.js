@@ -1,8 +1,6 @@
 const user = localStorage.getItem("user");
 
-console.log("User in storage:", user); // DEBUG
-
-if (!user) {
+if (!user || user === "null" || user === "undefined") {
   window.location.href = "login.html";
 }
 
