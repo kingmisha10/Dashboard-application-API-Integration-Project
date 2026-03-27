@@ -1,4 +1,3 @@
-
 /* ================= LOGIN ================= */
 const login = document.getElementById("loginForm");
 
@@ -6,11 +5,21 @@ if (login) {
   login.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    localStorage.setItem("user", "student");
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+      alert("Fill all fields");
+      return;
+    }
+
+    // Fake login (allowed for this project)
+    localStorage.setItem("user", email);
 
     window.location.href = "dashboard.html";
   });
 }
+
 /* ================= SIGNUP ================= */
 const signup = document.getElementById("signupForm");
 
@@ -18,13 +27,24 @@ if (signup) {
   signup.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword =
+      document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
     alert("Account created successfully");
 
     window.location.href = "login.html";
   });
 }
 
-/* ================= RESET PASSWORD ================= */
+/* ================= RESET PASSWORD (API) ================= */
 const reset = document.getElementById("resetForm");
 
 if (reset) {
@@ -32,8 +52,6 @@ if (reset) {
     e.preventDefault();
 
     const email = document.getElementById("email").value;
-
-    console.log("Sending email:", email);
 
     try {
       const res = await fetch(
@@ -47,10 +65,7 @@ if (reset) {
         }
       );
 
-      console.log("Response status:", res.status);
-
       const data = await res.json();
-      console.log("Response data:", data);
 
       if (res.ok) {
         document.getElementById("msg").innerText =
@@ -59,8 +74,7 @@ if (reset) {
         alert(data.message || "Reset failed");
       }
     } catch (err) {
-      console.error("ERROR:", err);
-      alert("Server error, check console");
+      alert("Server error, try again");
     }
   });
 }
